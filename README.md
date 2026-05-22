@@ -929,4 +929,4 @@ Strong bar:
 
 ## License
 
-MIT unless changed by the repository owner.
+MIT 
