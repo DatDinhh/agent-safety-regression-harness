@@ -1,0 +1,168 @@
+# ASRH: Agent Safety Regression Harness
+# Keep source, suites, docs, paper drafts, and sample reports tracked.
+# Ignore local secrets, generated traces, caches, model artifacts, and build outputs.
+
+# -----------------------------------------------------------------------------
+# Local secrets and environment files
+# -----------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.csr
+*.p12
+*.pfx
+*.secret
+secrets.*
+credentials.*
+
+# -----------------------------------------------------------------------------
+# Python bytecode and tool caches
+# -----------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.pyre/
+.pytype/
+.pyrightcache/
+.dmypy.json
+dmypy.json
+.cache/
+
+# -----------------------------------------------------------------------------
+# Virtual environments and local environment managers
+# -----------------------------------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
+.tox/
+.nox/
+.direnv/
+
+# -----------------------------------------------------------------------------
+# Packaging and build artifacts
+# -----------------------------------------------------------------------------
+build/
+dist/
+.eggs/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+
+# -----------------------------------------------------------------------------
+# Test, coverage, and quality reports
+# -----------------------------------------------------------------------------
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+junit.xml
+reports/junit.xml
+.mutmut-cache/
+bandit-report.*
+ruff-report.*
+mypy-report.*
+
+# -----------------------------------------------------------------------------
+# ASRH runtime outputs
+# -----------------------------------------------------------------------------
+# JSONL traces may contain prompts, tool outputs, provider metadata, or synthetic
+# secrets. Keep them local unless intentionally publishing redacted samples.
+/runs/*
+!/runs/.gitkeep
+
+# Preserve sample reports. Ignore generated reports and report assets.
+/reports/*
+!/reports/.gitkeep
+!/reports/sample_*.md
+/reports/assets/
+
+# Logs and local runtime scratch state.
+.logs/
+logs/
+*.log
+*.log.*
+*.pid
+*.pid.lock
+
+# -----------------------------------------------------------------------------
+# Local notebooks and exploratory scratch work
+# -----------------------------------------------------------------------------
+.ipynb_checkpoints/
+/notebooks/.ipynb_checkpoints/
+/notebooks/scratch*/
+/scratch/
+/tmp/
+/temp/
+*.tmp
+*.temp
+*.bak
+*.orig
+
+# -----------------------------------------------------------------------------
+# Model weights, checkpoints, datasets, and large local artifacts
+# Do not ignore asrh/models/: that path is source code. These are root-level
+# local artifacts only.
+# -----------------------------------------------------------------------------
+/models/
+/model_cache/
+/checkpoints/
+/artifacts/
+/data/raw/
+/data/cache/
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.safetensors
+*.gguf
+*.bin
+
+# -----------------------------------------------------------------------------
+# Documentation and paper build outputs
+# -----------------------------------------------------------------------------
+/site/
+/docs/_build/
+/docs/.doctrees/
+/paper/build/
+/paper/*.aux
+/paper/*.bbl
+/paper/*.bcf
+/paper/*.blg
+/paper/*.fdb_latexmk
+/paper/*.fls
+/paper/*.log
+/paper/*.out
+/paper/*.run.xml
+/paper/*.synctex.gz
+/paper/*.toc
+
+# -----------------------------------------------------------------------------
+# IDE/editor metadata
+# -----------------------------------------------------------------------------
+.vscode/
+.idea/
+*.code-workspace
+*.swp
+*.swo
+*~
+
+# -----------------------------------------------------------------------------
+# OS-specific files
+# -----------------------------------------------------------------------------
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+Desktop.ini

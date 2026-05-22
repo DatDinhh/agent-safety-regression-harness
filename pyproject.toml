@@ -1,0 +1,287 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "agent-safety-regression-harness"
+version = "0.1.0"
+description = "Verification-style regression testing for tool-using LLM agents under adversarial conditions."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+  { name = "Dat Dinh" }
+]
+maintainers = [
+  { name = "Dat Dinh" }
+]
+keywords = [
+  "ai-safety",
+  "llm-agents",
+  "prompt-injection",
+  "tool-use",
+  "evals",
+  "regression-testing",
+  "verification",
+  "security",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Security",
+  "Topic :: Software Development :: Testing",
+  "Typing :: Typed",
+]
+dependencies = [
+  "httpx>=0.27,<1",
+  "orjson>=3.10,<4",
+  "pydantic>=2.7,<3",
+  "pydantic-settings>=2.3,<3",
+  "python-dotenv>=1.0,<2",
+  "pyyaml>=6.0.1,<7",
+  "rich>=13.7,<15",
+  "tenacity>=8.2,<10",
+  "typer>=0.12,<1",
+  "typing-extensions>=4.11,<5",
+]
+
+[project.optional-dependencies]
+openai = [
+  "openai>=1.40,<3",
+]
+anthropic = [
+  "anthropic>=0.34,<1",
+]
+providers = [
+  "openai>=1.40,<3",
+  "anthropic>=0.34,<1",
+]
+local = [
+  "accelerate>=0.33,<2",
+  "safetensors>=0.4,<1",
+  "torch>=2.3,<3",
+  "transformers>=4.44,<5",
+]
+analysis = [
+  "matplotlib>=3.8,<4",
+  "pandas>=2.2,<3",
+  "tabulate>=0.9,<1",
+]
+docs = [
+  "mkdocs>=1.6,<2",
+  "mkdocs-material>=9.5,<10",
+]
+dev = [
+  "bandit[toml]>=1.7,<2",
+  "build>=1.2,<2",
+  "mypy>=1.10,<2",
+  "pre-commit>=3.7,<5",
+  "pytest>=8.2,<9",
+  "pytest-cov>=5,<8",
+  "pytest-mock>=3.14,<4",
+  "respx>=0.21,<1",
+  "ruff>=0.6,<1",
+  "types-pyyaml>=6.0,<7",
+  "twine>=5.1,<7",
+]
+all = [
+  "accelerate>=0.33,<2",
+  "anthropic>=0.34,<1",
+  "matplotlib>=3.8,<4",
+  "mkdocs>=1.6,<2",
+  "mkdocs-material>=9.5,<10",
+  "openai>=1.40,<3",
+  "pandas>=2.2,<3",
+  "safetensors>=0.4,<1",
+  "tabulate>=0.9,<1",
+  "torch>=2.3,<3",
+  "transformers>=4.44,<5",
+]
+
+[project.urls]
+Homepage = "https://github.com/OWNER/agent-safety-regression-harness"
+Repository = "https://github.com/OWNER/agent-safety-regression-harness"
+Issues = "https://github.com/OWNER/agent-safety-regression-harness/issues"
+
+[project.scripts]
+asrh = "asrh.cli.main:app"
+asrh-run = "asrh.cli.run:app"
+asrh-report = "asrh.cli.report:app"
+asrh-list-cases = "asrh.cli.list_cases:app"
+asrh-validate-cases = "asrh.cli.validate_cases:app"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "asrh",
+  "docs",
+  "paper",
+  "reports",
+  "suites",
+  "tests",
+  "README.md",
+  "pyproject.toml",
+]
+exclude = [
+  ".git",
+  ".github",
+  ".mypy_cache",
+  ".pytest_cache",
+  ".ruff_cache",
+  ".venv",
+  "dist",
+  "runs/*.jsonl",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["asrh"]
+artifacts = ["asrh/py.typed"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["asrh", "tests"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
+[tool.ruff.lint]
+select = [
+  "A",      # flake8-builtins
+  "ARG",    # flake8-unused-arguments
+  "B",      # flake8-bugbear
+  "C4",     # flake8-comprehensions
+  "DTZ",    # flake8-datetimez
+  "E",      # pycodestyle errors
+  "F",      # pyflakes
+  "I",      # isort
+  "N",      # pep8-naming
+  "PIE",    # flake8-pie
+  "PTH",    # flake8-use-pathlib
+  "RET",    # flake8-return
+  "RUF",    # ruff-specific rules
+  "S",      # flake8-bandit
+  "SIM",    # flake8-simplify
+  "T20",    # flake8-print
+  "UP",     # pyupgrade
+  "W",      # pycodestyle warnings
+]
+ignore = [
+  "E501",   # handled by formatter where practical
+  "S101",   # assert is expected in tests; see per-file ignores
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+  "ARG001",
+  "S101",
+]
+"asrh/models/mock.py" = [
+  "S311",   # deterministic mock behavior may use pseudo-randomness in tests
+]
+"asrh/cli/**/*.py" = [
+  "T201",   # CLI modules may intentionally print through Typer/Rich wrappers
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["asrh"]
+combine-as-imports = true
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+norecursedirs = [
+  ".git",
+  ".mypy_cache",
+  ".pytest_cache",
+  ".ruff_cache",
+  ".venv",
+  "dist",
+  "runs",
+]
+addopts = [
+  "--strict-config",
+  "--strict-markers",
+  "--cov=asrh",
+  "--cov-report=term-missing",
+  "--cov-report=xml",
+]
+markers = [
+  "unit: fast deterministic unit tests",
+  "integration: integration tests that may touch provider clients or filesystem state",
+  "provider: tests requiring external model provider credentials",
+  "slow: tests that are intentionally slower than normal unit tests",
+]
+filterwarnings = [
+  "error",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["asrh"]
+omit = [
+  "tests/*",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+fail_under = 80
+exclude_lines = [
+  "pragma: no cover",
+  "if TYPE_CHECKING:",
+  "if __name__ == .__main__.:",
+  "raise NotImplementedError",
+]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unused_configs = true
+disallow_any_generics = true
+disallow_subclassing_any = true
+disallow_untyped_decorators = true
+no_implicit_reexport = true
+show_error_codes = true
+pretty = true
+plugins = ["pydantic.mypy"]
+packages = ["asrh"]
+
+[[tool.mypy.overrides]]
+module = [
+  "tests.*",
+]
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+
+[[tool.mypy.overrides]]
+module = [
+  "openai.*",
+  "anthropic.*",
+  "transformers.*",
+  "torch.*",
+]
+ignore_missing_imports = true
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv", "runs"]
+skips = [
+  "B101",  # assert is acceptable in test code; tests are excluded above
+]
+
+[tool.bandit.assert_used]
+skips = ["*_test.py", "test_*.py"]
